@@ -34,8 +34,33 @@ from runner.koan import *
 # Your goal is to write the score method.
 
 def score(dice):
-    # You need to write this method
-    pass
+    # prepare the numbers dictionary
+    if len(dice) > 5:
+        return None
+
+    # assigns values of 0 to numbers 1-6
+    numbers = {}.fromkeys(range(1,7), 0)
+
+    # initialize the score
+    score = 0
+    
+    for n in dice:
+        numbers[n] += 1
+
+    # A set of three 1s is 1000 points
+    score += (numbers[1] // 3) * 1000
+
+    for n in range(2,7):
+        # set of three of any number besides 1 gives 100 * n points 
+        score += (numbers[n] // 3) * 100 * n
+
+    # Any 1 that is not part of a set is 100 points
+    score += (numbers[1] % 3) * 100
+
+    # Any 5 that is not part of a set is 50 points
+    score += (numbers[5] % 3) * 50
+
+    return score
 
 
 class AboutScoringProject(Koan):
